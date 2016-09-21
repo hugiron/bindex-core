@@ -8,7 +8,7 @@ def get(owner_id, domain, offset, count, filter, fields, extended=0, access_toke
         offset=offset,
         count=count,
         filter=filter,
-        fields=fields,
+        fields=','.join(fields),
         extended=extended
     )
     if access_token:
