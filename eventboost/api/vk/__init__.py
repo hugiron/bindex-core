@@ -9,10 +9,14 @@ class VkApi:
         return 'https://api.vk.com/method'
 
     @staticmethod
-    def request(method, params, access_token=None, v=5.53):
+    def get_version():
+        return 5.53
+
+    @staticmethod
+    def request(method, params, access_token=None, v=None):
         if access_token:
             params['access_token'] = access_token
-        params['v'] = v
+        params['v'] = v if v else VkApi.get_version()
         response = json.loads(rqst.post(
             url='{0}/{1}'.format(VkApi.get_base_uri(), method),
             data=params
@@ -25,10 +29,10 @@ class VkApi:
         return response['response']
 
     @staticmethod
-    def execute(code, params, access_token, v=5.53):
+    def execute(code, params, access_token, v=None):
         params['access_token'] = access_token
         params['code'] = code
-        params['v'] = v
+        params['v'] = v if v else VkApi.get_version()
         response = json.loads(rqst.post(
             url='{0}/execute'.format(VkApi.get_base_uri()),
             data=params
