@@ -18,7 +18,6 @@ def remove_cache(path):
         next_path = '{0}/{1}'.format(path, folder)
         if os.path.isdir(next_path):
             remove_cache(next_path)
-    print('All cache has been removed...')
 
 
 def install_package():
@@ -36,4 +35,5 @@ def install_package():
 if __name__ == '__main__':
     install_dependencies()
     remove_cache('.')
+    print('All cache has been removed...')
     install_package()
