@@ -27,7 +27,7 @@ class Profile:
         return self.__fb
 
     def set_fb(self, fb):
-        self.__fb = fb
+        self.__fb = fb.replace('+', '')
 
     def contains_fb(self):
         return bool(self.__fb)

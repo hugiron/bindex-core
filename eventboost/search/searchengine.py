@@ -1,13 +1,15 @@
 import eventboost.api.vk.users as VkUsers
 import eventboost.api.vk.wall as VkWall
 import eventboost.api.instagram.media as InstaMedia
+import eventboost.api.twitter.users as TwitterUsers
+from eventboost.search.tools.sociallinkparser import SocialLinkParser
 
 
 class SearchVkByUserInfo:
     @staticmethod
     def update(profile):
         if profile.contains_vk():
-            data = VkUsers.get(profile.get_vk(), ['connections'])
+            data = VkUsers.get(profile.get_vk(), ['connections'])[0]
             profile.set_vk(data['id'])
             if 'facebook' in data:
                 profile.set_fb(data['facebook'])
@@ -46,3 +48,37 @@ class SearchVkByUserWall:
     @staticmethod
     def is_ready(profile):
         return profile.contains_vk() and not profile.contains_instagram()
+
+
+class SearchInstagramByUserStatus:
+    @staticmethod
+    def update(profile):
+        if profile.contains_instagram():
+            profile = SocialLinkParser.parse(
+                profile=profile,
+                content=InstaMedia.get_status(profile.get_instagram()),
+                instagram=False
+            )
+        return profile
+
+    @staticmethod
+    def is_ready(profile):
+        return profile.contains_instagram() and \
+               not (profile.contains_fb() and profile.contains_vk() and profile.contains_twitter())
+
+
+class SearchTwitterByUserStatus:
+    @staticmethod
+    def update(profile):
+        if profile.contains_twitter():
+            profile = SocialLinkParser.parse(
+                profile=profile,
+                content=TwitterUsers.get_profile_card(profile.get_twitter()),
+                twitter=False
+            )
+        return profile
+
+    @staticmethod
+    def is_ready(profile):
+        return profile.contains_twitter() and \
+               not (profile.contains_fb() and profile.contains_instagram() and profile.contains_vk())
