@@ -1,9 +1,20 @@
-class Profile:
-    def __init__(self, vk=None, fb=None, instagram=None, twitter=None):
-        self.__vk = vk
-        self.__fb = fb
-        self.__instagram = instagram
-        self.__twitter = twitter
+from mongoengine import Document, StringField
+
+
+class Profile(Document):
+    __vk = StringField(db_field='vk')
+    __fb = StringField(db_field='fb')
+    __instagram = StringField(db_field='instagram')
+    __twitter = StringField(db_field='twitter')
+
+    @staticmethod
+    def create(vk=None, fb=None, instagram=None, twitter=None):
+        profile = Profile()
+        profile.set_vk(vk)
+        profile.set_fb(fb)
+        profile.set_instagram(instagram)
+        profile.set_twitter(twitter)
+        return profile
 
     def __str__(self):
         return 'User\nVK: {0}\nFacebook: {1}\nInstagram: {2}\nTwitter: {3}'.format(self.__vk,
