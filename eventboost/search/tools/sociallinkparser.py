@@ -26,20 +26,20 @@ class SocialLinkParser:
             return VkUsers.get(
                 user_ids=data[0],
                 fields=[]
-            )['id']
+            )[0]['id']
         return None
 
     @staticmethod
     def parse_fb(content):
-        data = re.findall('facebook\\.com/profile\\.php/?\\?id=([\\d]+)', content)
+        data = re.findall('(facebook|fb)\\.com/profile\\.php/?\\?id=([\\d]+)', content)
         if data:
-            return data[0]
-        data = re.findall('facebook\\.com/app_scoped_user_id/([\\d]+)', content)
+            return data[0][1]
+        data = re.findall('(facebook|fb)\\.com/app_scoped_user_id/([\\d]+)', content)
         if data:
-            return data[0]
-        data = re.findall('facebook\\.com/([a-zA-Z\\d][a-zA-Z\\d\\.]+)', content)
+            return data[0][1]
+        data = re.findall('(facebook|fb)\\.com/([a-zA-Z\\d][a-zA-Z\\d\\.]+)', content)
         if data:
-            return data[0] if str.isdigit(data[0]) else FbUsers.get_user_id(data[0])
+            return data[0][1] if str.isdigit(data[0][1]) else FbUsers.get_user_id(data[0][1])
         return None
 
     @staticmethod
