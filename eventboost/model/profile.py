@@ -6,6 +6,15 @@ class Profile(Document):
     __fb = StringField(db_field='fb')
     __instagram = StringField(db_field='instagram')
     __twitter = StringField(db_field='twitter')
+    meta = {
+        'collection': 'profiles',
+        'indexes': [
+            'vk',
+            'fb',
+            'instagram',
+            'twitter'
+        ]
+    }
 
     @staticmethod
     def create(vk=None, fb=None, instagram=None, twitter=None):
