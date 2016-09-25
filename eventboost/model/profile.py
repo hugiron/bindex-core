@@ -2,18 +2,13 @@ from mongoengine import Document, StringField
 
 
 class Profile(Document):
-    __vk = StringField(db_field='vk')
-    __fb = StringField(db_field='fb')
-    __instagram = StringField(db_field='instagram')
-    __twitter = StringField(db_field='twitter')
+    __vk = StringField(db_field='vk', default=None)
+    __fb = StringField(db_field='fb', default=None)
+    __instagram = StringField(db_field='instagram', default=None)
+    __twitter = StringField(db_field='twitter', default=None)
     meta = {
         'collection': 'profiles',
-        'indexes': [
-            'vk',
-            'fb',
-            'instagram',
-            'twitter'
-        ]
+        'indexes': []
     }
 
     @staticmethod
@@ -47,7 +42,7 @@ class Profile(Document):
         return self.__fb
 
     def set_fb(self, fb):
-        self.__fb = fb.replace('+', '')
+        self.__fb = fb.replace('+', '') if fb else fb
 
     def contains_fb(self):
         return bool(self.__fb)

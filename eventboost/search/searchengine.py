@@ -7,9 +7,13 @@ from eventboost.search.tools.sociallinkparser import SocialLinkParser
 
 class SearchVkByUserInfo:
     @staticmethod
-    def update(profile):
+    def update(profile, access_token):
         if profile.contains_vk():
-            data = VkUsers.get(profile.get_vk(), ['connections'])[0]
+            data = VkUsers.get(
+                user_ids=profile.get_vk(),
+                fields=['connections'],
+                access_token=access_token
+            )[0]
             profile.set_vk(data['id'])
             if 'facebook' in data:
                 profile.set_fb(data['facebook'])
@@ -29,8 +33,8 @@ class SearchVkByUserWall:
     @staticmethod
     def update(profile, access_token):
         data = VkWall.get(
-            owner_id=profile.get_vk() if int == type(profile.get_vk()) else 0,
-            domain=profile.get_vk() if str == type(profile.get_vk()) else '',
+            owner_id=profile.get_vk() if str(profile.get_vk()).isdigit() else 0,
+            domain=profile.get_vk() if not str(profile.get_vk()).isdigit() else '',
             offset=0,
             count=100,
             filter='owner',
