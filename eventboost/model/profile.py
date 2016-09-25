@@ -17,12 +17,12 @@ class Profile(Document):
     }
 
     @staticmethod
-    def create(vk=None, fb=None, instagram=None, twitter=None):
+    def create(vk=None, fb=None, instagram=None, twitter=None, **kwargs):
         profile = Profile()
-        profile.set_vk(vk)
-        profile.set_fb(fb)
-        profile.set_instagram(instagram)
-        profile.set_twitter(twitter)
+        profile.set_vk(vk if vk else kwargs.get('vk'))
+        profile.set_fb(fb if fb else kwargs.get('fb'))
+        profile.set_instagram(instagram if instagram else kwargs.get('instagram'))
+        profile.set_twitter(twitter if twitter else kwargs.get('twitter'))
         return profile
 
     def __str__(self):
