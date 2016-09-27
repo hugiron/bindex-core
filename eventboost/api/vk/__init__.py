@@ -1,6 +1,6 @@
 import json
 import requests as rqst
-from eventboost.model.exceptions import MethodApiException
+from eventboost.model.exceptions import MethodApiException, RequestLimitException
 
 
 class VkApi:
@@ -22,6 +22,8 @@ class VkApi:
             data=params
         ).text)
         if 'error' in response:
+            if response['error']['error_code'] == 6:
+                raise RequestLimitException(message=response['error']['error_msg'])
             raise MethodApiException(
                 code=response['error']['error_code'],
                 message=response['error']['error_msg']
