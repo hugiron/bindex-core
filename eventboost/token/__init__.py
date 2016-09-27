@@ -8,18 +8,19 @@ def get_access_token(network, permissions=[]):
     result = None
     try:
         handler = token_handler[network]
+        query = Q(network=network)
+        if permissions:
+            query &= Q(permissions__all=permissions)
         while not result:
             try:
-                token = Token.objects(Q(network=network) &
-                                      Q(data__permissions__exists=True) &
-                                      Q(data__permissions__all=permissions))\
-                    .aggregate([{'$sample': {'size': 1}}])
-                if not token:
+                token = Token.objects(query).aggregate(*[{'$sample': {'size': 1}}])
+                if not token.alive:
                     break
-                if handler.is_active(token.get_data()):
-                    result = token.get_data()
+                token = token.next()
+                if handler.is_active(token['data']):
+                    result = token['data']
                 else:
-                    token.delete()
+                    Token.objects(Q(id=token['_id'])).delete()
             except RequestLimitException as limit_exception:
                 pass
             except:
