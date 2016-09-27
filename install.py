@@ -4,7 +4,7 @@ import shutil
 
 
 def install_dependencies():
-    dependencies = ['requests', 'bs4', 'mongoengine', 'pika', 'pandas']
+    dependencies = ['requests', 'bs4', 'mongoengine', 'pika', 'pandas', 'nuitka']
     for dp in dependencies:
         os.system('pip install {0}'.format(dp))
         print('{0} installed from pip'.format(dp))
@@ -24,7 +24,9 @@ def install_package():
     package = 'eventboost'
     for path in sys.path:
         if os.path.isdir(path) and os.path.abspath(path) != os.getcwd():
-            shutil.rmtree('{0}/{1}'.format(path, package))
+            current = '{0}/{1}'.format(path, package)
+            if os.path.exists(current):
+                shutil.rmtree(current)
             shutil.copytree(
                 src='{0}/{1}'.format(os.getcwd(), package),
                 dst='{0}/{1}'.format(path, package)
