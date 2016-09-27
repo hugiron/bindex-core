@@ -37,7 +37,7 @@ class Profile(Document):
         return self.vk
 
     def set_vk(self, vk):
-        self.vk = str(vk)
+        self.vk = str(vk) if vk else None
 
     def contains_vk(self):
         return bool(self.vk)
@@ -55,7 +55,7 @@ class Profile(Document):
         return self.instagram
 
     def set_instagram(self, instagram):
-        self.instagram = str(instagram)
+        self.instagram = str(instagram) if instagram else None
 
     def contains_instagram(self):
         return bool(self.instagram)
@@ -64,7 +64,7 @@ class Profile(Document):
         return self.twitter
 
     def set_twitter(self, twitter):
-        self.twitter = str(twitter)
+        self.twitter = str(twitter) if twitter else None
 
     def contains_twitter(self):
         return bool(self.twitter)

@@ -23,8 +23,6 @@ def get_access_token(network, permissions=[]):
                     Token.objects(Q(id=token['_id'])).delete()
             except RequestLimitException as limit_exception:
                 pass
-            except:
-                break
     except:
         pass
     return result
