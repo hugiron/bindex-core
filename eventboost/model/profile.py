@@ -9,9 +9,10 @@ class Profile(Document):
     meta = {
         'collection': 'profiles',
         'indexes': [
-            {
-                'fields': ['vk', 'fb', 'instagram', 'twitter']
-            }
+            'vk',
+            'fb',
+            'instagram',
+            'twitter'
         ]
     }
 
