@@ -6,25 +6,22 @@ from eventboost.model.exceptions import RequestLimitException
 
 def get_access_token(network, permissions=[]):
     result = None
-    try:
-        handler = token_handler[network]
-        query = Q(network=network)
-        if permissions:
-            query &= Q(permissions__all=permissions)
-        while not result:
-            try:
-                token = Token.objects(query).aggregate(*[{'$sample': {'size': 1}}])
-                if not token.alive:
-                    break
-                token = token.next()
-                if handler.is_active(token['data']):
-                    result = token['data']
-                else:
-                    Token.objects(Q(id=token['_id'])).delete()
-            except RequestLimitException as limit_exception:
-                pass
-    except:
-        pass
+    handler = token_handler[network]
+    query = Q(network=network)
+    if permissions:
+        query &= Q(permissions__all=permissions)
+    while not result:
+        try:
+            token = Token.objects(query).aggregate(*[{'$sample': {'size': 1}}])
+            if not token.alive:
+                break
+            token = token.next()
+            if handler.is_active(token['data']):
+                result = token['data']
+            else:
+                Token.objects(Q(id=token['_id'])).delete()
+        except RequestLimitException as limit_exception:
+            pass
     return result
 
 
