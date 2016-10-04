@@ -1,4 +1,6 @@
 import json
+import time
+import random
 import requests as rqst
 from eventboost.model.exceptions import MethodApiException, RequestLimitException
 
@@ -24,7 +26,14 @@ class FbApi:
             ).text)
         if 'error' in response:
             if response['error']['code'] == 17:
-                raise RequestLimitException(message=response['error']['message'])
+                time.sleep(3 * random.random())
+                return FbApi.request(
+                    method=method,
+                    params=params,
+                    access_token=access_token,
+                    get_request=get_request
+                )
+                #raise RequestLimitException(message=response['error']['message'])
             raise MethodApiException(
                 code=response['error']['code'],
                 message=response['error']['message']
