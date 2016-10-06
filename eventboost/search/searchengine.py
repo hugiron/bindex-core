@@ -11,7 +11,7 @@ class SearchVkByUserInfo:
         if profile.contains_vk():
             data = VkUsers.get(
                 user_ids=profile.get_vk(),
-                fields=['connections'],
+                fields=['connections', 'site', 'status'],
                 access_token=access_token
             )[0]
             profile.set_vk(data['id'])
@@ -21,6 +21,11 @@ class SearchVkByUserInfo:
                 profile.set_instagram(data['instagram'])
             if 'twitter' in data:
                 profile.set_twitter(data['twitter'])
+            profile = SocialLinkParser.parse(
+                profile=profile,
+                content='{0} {1}'.format(data.get('site'), data.get('status')),
+                vk=False
+            )
         return profile
 
     @staticmethod

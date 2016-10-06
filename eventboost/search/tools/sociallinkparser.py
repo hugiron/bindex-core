@@ -45,7 +45,12 @@ class SocialLinkParser:
     @staticmethod
     def parse_instagram(content):
         data = re.findall('instagram\\.com/([a-zA-Z\\d_][a-zA-Z\\d_\\.]+)', content)
-        return data[0] if data else None
+        result = data[0] if data else None
+        data = re.findall(pattern='instagram([^a-zA-Z\\d_]+)?([a-zA-Z\\d_][a-zA-Z\\d_\\.]+)',
+                          string=content,
+                          flags=re.IGNORECASE)
+        result = data[0][1] if not result and data else result
+        return result
 
     @staticmethod
     def parse_twitter(content):
