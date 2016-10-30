@@ -7,23 +7,26 @@ class Profile(Document):
     fb = StringField(db_field='fb', default=None)
     instagram = StringField(db_field='instagram', default=None)
     twitter = StringField(db_field='twitter', default=None)
+    skype = StringField(db_field='skype', default=None)
     meta = {
         'collection': 'profiles',
         'indexes': [
             'vk',
             'fb',
             'instagram',
-            'twitter'
+            'twitter',
+            'skype'
         ]
     }
 
     @staticmethod
-    def create(vk=None, fb=None, instagram=None, twitter=None, **kwargs):
+    def create(vk=None, fb=None, instagram=None, twitter=None, skype=None, **kwargs):
         profile = Profile()
         profile.set_vk(vk if vk else kwargs.get('vk'))
         profile.set_fb(fb if fb else kwargs.get('fb'))
         profile.set_instagram(instagram if instagram else kwargs.get('instagram'))
         profile.set_twitter(twitter if twitter else kwargs.get('twitter'))
+        profile.set_skype(skype if skype else kwargs.get('skype'))
         return profile
 
     def dumps(self):
@@ -35,10 +38,11 @@ class Profile(Document):
         ))
 
     def __str__(self):
-        return 'User\nVK: {0}\nFacebook: {1}\nInstagram: {2}\nTwitter: {3}'.format(self.vk,
-                                                                                   self.fb,
-                                                                                   self.instagram,
-                                                                                   self.twitter)
+        return 'User\nVK: {0}\nFacebook: {1}\nInstagram: {2}\nTwitter: {3}\nSkype: {4}'.format(self.vk,
+                                                                                               self.fb,
+                                                                                               self.instagram,
+                                                                                               self.twitter,
+                                                                                               self.skype)
 
     def is_empty(self):
         return not (self.vk or self.fb or self.instagram or self.twitter)
@@ -78,3 +82,12 @@ class Profile(Document):
 
     def contains_twitter(self):
         return bool(self.twitter)
+
+    def get_skype(self):
+        return self.skype
+
+    def set_skype(self, skype):
+        self.skype = skype
+
+    def contains_skype(self):
+        return bool(self.skype)

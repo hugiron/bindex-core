@@ -21,6 +21,8 @@ class SearchVkByUserInfo:
                 profile.set_instagram(data['instagram'])
             if 'twitter' in data:
                 profile.set_twitter(data['twitter'])
+            if 'skype' in data:
+                profile.set_skype(data['skype'])
             profile = SocialLinkParser.parse(
                 profile=profile,
                 content='{0} {1}'.format(data.get('site'), data.get('status')),
