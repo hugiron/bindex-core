@@ -1,3 +1,4 @@
+import json
 from mongoengine import Document, StringField
 
 
@@ -24,6 +25,14 @@ class Profile(Document):
         profile.set_instagram(instagram if instagram else kwargs.get('instagram'))
         profile.set_twitter(twitter if twitter else kwargs.get('twitter'))
         return profile
+
+    def dumps(self):
+        json.dumps(dict(
+            vk=self.vk,
+            fb=self.fb,
+            instagram=self.instagram,
+            twitter=self.twitter
+        ))
 
     def __str__(self):
         return 'User\nVK: {0}\nFacebook: {1}\nInstagram: {2}\nTwitter: {3}'.format(self.vk,
