@@ -8,6 +8,7 @@ class Profile(Document):
     instagram = StringField(db_field='instagram', default=None)
     twitter = StringField(db_field='twitter', default=None)
     skype = StringField(db_field='skype', default=None)
+    phone = StringField(db_field='phone', default=None)
     meta = {
         'collection': 'profiles',
         'indexes': [
@@ -15,18 +16,20 @@ class Profile(Document):
             'fb',
             'instagram',
             'twitter',
-            'skype'
+            'skype',
+            'phone'
         ]
     }
 
     @staticmethod
-    def create(vk=None, fb=None, instagram=None, twitter=None, skype=None, **kwargs):
+    def create(vk=None, fb=None, instagram=None, twitter=None, skype=None, phone=None, **kwargs):
         profile = Profile()
         profile.set_vk(vk if vk else kwargs.get('vk'))
         profile.set_fb(fb if fb else kwargs.get('fb'))
         profile.set_instagram(instagram if instagram else kwargs.get('instagram'))
         profile.set_twitter(twitter if twitter else kwargs.get('twitter'))
         profile.set_skype(skype if skype else kwargs.get('skype'))
+        profile.set_phone(phone if phone else kwargs.get('phone'))
         return profile
 
     def dumps(self):
@@ -91,3 +94,12 @@ class Profile(Document):
 
     def contains_skype(self):
         return bool(self.skype)
+
+    def get_phone(self):
+        return self.phone
+
+    def set_phone(self, phone):
+        self.skype = phone
+
+    def contains_phone(self):
+        return bool(self.phone)

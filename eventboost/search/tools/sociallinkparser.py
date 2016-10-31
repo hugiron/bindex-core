@@ -5,7 +5,7 @@ import eventboost.api.vk.users as VkUsers
 
 class SocialLinkParser:
     @staticmethod
-    def parse(profile, content, vk=True, fb=True, instagram=True, twitter=True):
+    def parse(profile, content, vk=True, fb=True, instagram=True, twitter=True, phone=True):
         if vk and not profile.contains_vk():
             profile.set_vk(SocialLinkParser.parse_vk(content))
         if fb and not profile.contains_fb():
@@ -14,7 +14,14 @@ class SocialLinkParser:
             profile.set_instagram(SocialLinkParser.parse_instagram(content))
         if twitter and not profile.contains_twitter():
             profile.set_twitter(SocialLinkParser.parse_twitter(content))
+        if phone and not profile.contains_phone():
+            profile.set_phone(SocialLinkParser.parse_phone(content))
         return profile
+
+    @staticmethod
+    def parse_phone(content):
+        data = re.findall('(\\+[\\d]{10,18})', re.sub('[-—()\\s]', '', content))
+        return data[0] if data else None
 
     @staticmethod
     def parse_vk(content):
