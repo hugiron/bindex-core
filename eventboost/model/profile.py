@@ -43,11 +43,12 @@ class Profile(Document):
         ))
 
     def __str__(self):
-        return 'User\nVK: {0}\nFacebook: {1}\nInstagram: {2}\nTwitter: {3}\nSkype: {4}'.format(self.vk,
-                                                                                               self.fb,
-                                                                                               self.instagram,
-                                                                                               self.twitter,
-                                                                                               self.skype)
+        return 'User\nVK: {0}\nFacebook: {1}\nInstagram: {2}\nTwitter: {3}\nSkype: {4}\nPhone: {5}'.format(self.vk,
+                                                                                                           self.fb,
+                                                                                                           self.instagram,
+                                                                                                           self.twitter,
+                                                                                                           self.skype,
+                                                                                                           self.phone)
 
     def is_empty(self):
         return not (self.vk or self.fb or self.instagram or self.twitter)
@@ -101,7 +102,7 @@ class Profile(Document):
         return self.phone
 
     def set_phone(self, phone):
-        self.skype = phone
+        self.phone = phone
 
     def contains_phone(self):
         return bool(self.phone)

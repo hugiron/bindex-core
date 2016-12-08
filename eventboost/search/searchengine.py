@@ -41,7 +41,7 @@ class SearchVkByUserWall:
         if not str(profile.get_vk()).isdigit():
             profile.set_vk(VkUsers.get(user_ids=profile.get_vk(), fields=[])[0]['id'])
         for url in InstaMedia.get_notes(VkWall.get_source_code(owner_id=profile.get_vk())):
-            profile.set_instagram(InstaMedia.get_author(url))
+            profile.set_instagram(InstaMedia.get_author('https://{0}'.format(url)))
             if profile.contains_instagram():
                 break
         return profile

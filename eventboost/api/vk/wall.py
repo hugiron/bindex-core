@@ -19,4 +19,9 @@ def get(owner_id, domain, offset, count, filter, fields, extended=0, access_toke
 
 
 def get_source_code(owner_id):
-    return urllib.parse.unquote(requests.get('https://vk.com/wall{0}?own=1'.format(owner_id)).text)
+    headers = {
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) '
+                      'Chrome/53.0.2785.116 YaBrowser/16.10.0.2309 Safari/537.36'
+    }
+    return urllib.parse.unquote(requests.get(url='https://vk.com/wall{0}?own=1'.format(owner_id),
+                                             headers=headers).text)
