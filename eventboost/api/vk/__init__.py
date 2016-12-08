@@ -25,14 +25,7 @@ class VkApi:
         ).text)
         if 'error' in response:
             if response['error']['error_code'] == 6:
-                time.sleep(3 * random.random())
-                return VkApi.request(
-                    method=method,
-                    params=params,
-                    access_token=access_token,
-                    v=v
-                )
-                #raise RequestLimitException(message=response['error']['error_msg'])
+                raise RequestLimitException(message=response['error']['error_msg'])
             raise MethodApiException(
                 code=response['error']['error_code'],
                 message=response['error']['error_msg']

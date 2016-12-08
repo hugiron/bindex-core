@@ -4,7 +4,7 @@ import shutil
 
 
 def install_dependencies():
-    dependencies = ['requests', 'bs4', 'mongoengine', 'pika', 'pandas', 'nuitka', 'sqlite3']
+    dependencies = ['requests', 'bs4', 'mongoengine', 'pika', 'pandas', 'nuitka']
     for dp in dependencies:
         os.system('pip3 install {0}'.format(dp))
         print('{0} installed from pip'.format(dp))

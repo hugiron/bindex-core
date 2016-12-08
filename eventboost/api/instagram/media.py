@@ -28,3 +28,7 @@ def get_status(username):
     except:
         pass
     return buffer.getvalue()
+
+
+def get_notes(source_code):
+    return re.findall("instagram\.com/[\d\w_/-]+", source_code)

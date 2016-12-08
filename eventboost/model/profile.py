@@ -37,7 +37,9 @@ class Profile(Document):
             vk=self.vk,
             fb=self.fb,
             instagram=self.instagram,
-            twitter=self.twitter
+            twitter=self.twitter,
+            skype=self.skype,
+            phone=self.phone
         ))
 
     def __str__(self):

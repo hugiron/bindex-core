@@ -7,12 +7,11 @@ from eventboost.search.tools.sociallinkparser import SocialLinkParser
 
 class SearchVkByUserInfo:
     @staticmethod
-    def update(profile, access_token):
+    def update(profile):
         if profile.contains_vk():
             data = VkUsers.get(
                 user_ids=profile.get_vk(),
-                fields=['connections', 'site', 'status'],
-                access_token=access_token
+                fields=['connections', 'site', 'status']
             )[0]
             profile.set_vk(data['id'])
             if 'facebook' in data:
@@ -38,22 +37,13 @@ class SearchVkByUserInfo:
 
 class SearchVkByUserWall:
     @staticmethod
-    def update(profile, access_token):
-        data = VkWall.get(
-            owner_id=profile.get_vk() if str(profile.get_vk()).isdigit() else 0,
-            domain=profile.get_vk() if not str(profile.get_vk()).isdigit() else '',
-            offset=0,
-            count=100,
-            filter='owner',
-            fields=[],
-            access_token=access_token
-        )
-        if 'items' in data:
-            for item in data['items']:
-                if 'copy_history' not in item and 'post_source' in item and 'url' in item['post_source']:
-                    profile.set_instagram(InstaMedia.get_author(item['post_source']['url']))
-                    if profile.contains_instagram():
-                        break
+    def update(profile):
+        if not str(profile.get_vk()).isdigit():
+            profile.set_vk(VkUsers.get(user_ids=profile.get_vk(), fields=[])[0]['id'])
+        for url in InstaMedia.get_notes(VkWall.get_source_code(owner_id=profile.get_vk())):
+            profile.set_instagram(InstaMedia.get_author(url))
+            if profile.contains_instagram():
+                break
         return profile
 
     @staticmethod
