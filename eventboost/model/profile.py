@@ -33,7 +33,7 @@ class Profile(Document):
         return profile
 
     def dumps(self):
-        json.dumps(dict(
+        return json.dumps(dict(
             vk=self.vk,
             fb=self.fb,
             instagram=self.instagram,
