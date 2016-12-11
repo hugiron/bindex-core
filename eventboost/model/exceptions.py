@@ -10,3 +10,13 @@ class MethodApiException(Exception):
 class RequestLimitException(Exception):
     def __init__(self, message=''):
         self.message = message
+
+
+class InstagramException(Exception):
+    def __init__(self, message=''):
+        self.message = message
+
+
+class InstagramNotFoundException(InstagramException):
+    def __init__(self, message=''):
+        self.message = message
