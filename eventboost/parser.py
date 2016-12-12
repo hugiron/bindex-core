@@ -36,8 +36,13 @@ def profile_save(profile):
         upsert_data['instagram'] = profile.get_instagram()
     if profile.contains_twitter():
         upsert_data['twitter'] = profile.get_twitter()
+    if profile.contains_skype():
+        upsert_data['skype'] = profile.get_skype()
+    if profile.contains_phone():
+        upsert_data['phone'] = profile.get_phone()
     Profile.objects(upsert_query).modify(**upsert_data)
 
 
 def get_contains_count(profile):
-    return profile.contains_vk() + profile.contains_fb() + profile.contains_instagram() + profile.contains_twitter()
+    return profile.contains_vk() + profile.contains_fb() + profile.contains_instagram() + profile.contains_twitter() + \
+           profile.contains_skype() + profile.contains_phone()
