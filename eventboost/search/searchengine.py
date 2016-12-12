@@ -3,6 +3,7 @@ import eventboost.api.vk.wall as VkWall
 import eventboost.api.instagram.media as InstaMedia
 import eventboost.api.twitter.users as TwitterUsers
 from eventboost.search.tools.sociallinkparser import SocialLinkParser
+from eventboost.api.instagram.method import get_account_by_username, get_account_by_id
 
 
 class SearchVkByUserInfo:
@@ -17,7 +18,7 @@ class SearchVkByUserInfo:
             if 'facebook' in data:
                 profile.set_fb(data['facebook'])
             if 'instagram' in data:
-                profile.set_instagram(data['instagram'])
+                profile.set_instagram(get_account_by_username(data['instagram']).id)
             if 'twitter' in data:
                 profile.set_twitter(data['twitter'])
             if 'skype' in data:
@@ -55,9 +56,11 @@ class SearchInstagramByUserStatus:
     @staticmethod
     def update(profile):
         if profile.contains_instagram():
+            instagram_username = get_account_by_id(id=profile.get_instagram()).username \
+                if profile.get_instagram().isdigit() else profile.get_instagram()
             profile = SocialLinkParser.parse(
                 profile=profile,
-                content=InstaMedia.get_status(profile.get_instagram()),
+                content=InstaMedia.get_status(instagram_username),
                 instagram=False
             )
         return profile

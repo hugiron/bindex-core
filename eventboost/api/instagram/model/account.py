@@ -6,6 +6,22 @@ class Account:
         pass
 
     @staticmethod
+    def empty():
+        account = Account()
+        account.id = None
+        account.username = None
+        account.follows_count = 0
+        account.followed_by_count = 0
+        account.media_count = 0
+        account.profile_pic_url = None
+        account.biography = ''
+        account.full_name = ''
+        account.is_private = False
+        account.external_url = ''
+        account.is_verified = False
+        return account
+
+    @staticmethod
     def create_from_account_page(response):
         account = Account()
         if type(response) == dict:

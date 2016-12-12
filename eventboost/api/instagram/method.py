@@ -12,18 +12,22 @@ from eventboost.model.exceptions import InstagramException, InstagramNotFoundExc
 def get_account_by_username(username):
     response = rqst.get(get_account_json_info_link_by_username(username=username))
     if response.status_code == 404:
-        raise InstagramNotFoundException('Account with given username does not exist.')
+        #raise InstagramNotFoundException('Account with given username does not exist.')
+        return Account.empty()
     if response.status_code != 200:
-        raise InstagramException('Response code is not equal 200. Something went wrong. Please report issue.')
+        #raise InstagramException('Response code is not equal 200. Something went wrong. Please report issue.')
+        return Account.empty()
     return Account.create_from_account_page(response=json.loads(response.text).get('user'))
 
 
 def get_account_by_id(id):
     response = get_api_request(get_account_json_info_link_by_account_id(user_id=id))
     if response.status_code == 404:
-        raise InstagramNotFoundException('Account with given username does not exist.')
+        #raise InstagramNotFoundException('Account with given username does not exist.')
+        return Account.empty()
     if response.status_code != 200:
-        raise InstagramException('Response code is not equal 200. Something went wrong. Please report issue.')
+        #raise InstagramException('Response code is not equal 200. Something went wrong. Please report issue.')
+        return Account.empty()
     return Account.create_from_account_page(response=response.text)
 
 

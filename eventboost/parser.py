@@ -25,7 +25,8 @@ def profile_parser(profile):
 
 def profile_save(profile):
     upsert_query = (Q(vk__exists=False) | Q(vk=profile.get_vk())) & \
-                   (Q(fb__exists=False) | Q(fb=profile.get_fb()))
+                   (Q(fb__exists=False) | Q(fb=profile.get_fb())) & \
+                   (Q(instagram__exists=False) | Q(instagram=profile.get_instagram()))
     upsert_data = dict(upsert=True, new=True)
     if profile.contains_vk():
         upsert_data['vk'] = profile.get_vk()
