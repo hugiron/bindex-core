@@ -33,7 +33,8 @@ class SearchVkByUserInfo:
     @staticmethod
     def is_ready(profile):
         return profile.contains_vk() and \
-               not (profile.contains_instagram() and profile.contains_twitter() and profile.contains_fb())
+               not (profile.contains_instagram() and profile.contains_twitter() and profile.contains_fb()
+                    and profile.contains_skype() and profile.contains_phone())
 
 
 class SearchVkByUserWall:
@@ -68,7 +69,8 @@ class SearchInstagramByUserStatus:
     @staticmethod
     def is_ready(profile):
         return profile.contains_instagram() and \
-               not (profile.contains_fb() and profile.contains_vk() and profile.contains_twitter())
+               not (profile.contains_fb() and profile.contains_vk() and profile.contains_twitter()
+                    and profile.contains_phone())
 
 
 class SearchTwitterByUserStatus:
@@ -85,4 +87,5 @@ class SearchTwitterByUserStatus:
     @staticmethod
     def is_ready(profile):
         return profile.contains_twitter() and \
-               not (profile.contains_fb() and profile.contains_instagram() and profile.contains_vk())
+               not (profile.contains_fb() and profile.contains_instagram() and profile.contains_vk()
+                    and profile.contains_phone())
