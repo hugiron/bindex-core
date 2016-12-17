@@ -15,13 +15,13 @@ class SearchVkByUserInfo:
                 fields=['connections', 'site', 'status']
             )[0]
             profile.set_vk(data['id'])
-            if 'facebook' in data:
+            if 'facebook' in data and not profile.contains_fb():
                 profile.set_fb(data['facebook'])
-            if 'instagram' in data:
+            if 'instagram' in data and not profile.contains_instagram():
                 profile.set_instagram(get_account_by_username(data['instagram']).id)
-            if 'twitter' in data:
+            if 'twitter' in data and not profile.contains_twitter():
                 profile.set_twitter(data['twitter'])
-            if 'skype' in data:
+            if 'skype' in data and not profile.contains_skype():
                 profile.set_skype(data['skype'])
             profile = SocialLinkParser.parse(
                 profile=profile,
