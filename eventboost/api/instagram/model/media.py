@@ -13,6 +13,19 @@ class Media:
         pass
 
     @staticmethod
+    def empty():
+        media = Media()
+        media.id = None
+        media.type = TYPE_IMAGE
+        media.created_time = 0
+        media.code = ''
+        media.link = '{0}p/{1}'.format(INSTAGRAM_URL, media.code)
+        media.image_standard_resolution_url = ''
+        media.caption = ''
+        media.owner = Account.empty()
+        return media
+
+    @staticmethod
     def create_from_api(response):
         media = Media()
         if type(response) == dict:
