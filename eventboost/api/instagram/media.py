@@ -1,4 +1,5 @@
 import re
+from bs4 import BeautifulSoup, SoupStrainer
 from eventboost.api.instagram.method import *
 
 
@@ -22,4 +23,10 @@ def get_status(username):
 
 
 def get_notes(source_code):
-    return re.findall("instagram\.com/[\d\w_/-]+", source_code)
+    wall_strainer = SoupStrainer(attrs={'id': 'page_wall_posts'})
+    parser = BeautifulSoup(source_code, 'html.parser', parse_only=wall_strainer)
+    regex = re.compile("instagram\.com/[\d\w_/-]+")
+    result = list()
+    for post in parser.findAll(attrs={'class': 'post_date'}):
+        result.extend(regex.findall(str(post)))
+    return result

@@ -2,6 +2,7 @@ import re
 import eventboost.api.fb.users as FbUsers
 import eventboost.api.vk.users as VkUsers
 from eventboost.api.instagram.method import get_account_by_username
+from eventboost.api.twitter.users import get_user_id_by_screen_name
 
 
 class SocialLinkParser:
@@ -14,7 +15,7 @@ class SocialLinkParser:
         if instagram and not profile.contains_instagram():
             profile.set_instagram(get_account_by_username(SocialLinkParser.parse_instagram(content)).id)
         if twitter and not profile.contains_twitter():
-            profile.set_twitter(SocialLinkParser.parse_twitter(content))
+            profile.set_twitter(get_user_id_by_screen_name(SocialLinkParser.parse_twitter(content)))
         if phone and not profile.contains_phone():
             profile.set_phone(SocialLinkParser.parse_phone(content))
         return profile

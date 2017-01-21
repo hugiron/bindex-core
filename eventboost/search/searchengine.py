@@ -4,6 +4,7 @@ import eventboost.api.instagram.media as InstaMedia
 import eventboost.api.twitter.users as TwitterUsers
 from eventboost.search.tools.sociallinkparser import SocialLinkParser
 from eventboost.api.instagram.method import get_account_by_username, get_account_by_id
+from eventboost.api.twitter.users import get_user_id_by_screen_name
 
 
 class SearchVkByUserInfo:
@@ -20,7 +21,7 @@ class SearchVkByUserInfo:
             if 'instagram' in data and not profile.contains_instagram():
                 profile.set_instagram(get_account_by_username(data['instagram']).id)
             if 'twitter' in data and not profile.contains_twitter():
-                profile.set_twitter(data['twitter'])
+                profile.set_twitter(get_user_id_by_screen_name(data['twitter']))
             if 'skype' in data and not profile.contains_skype():
                 profile.set_skype(data['skype'])
             profile = SocialLinkParser.parse(

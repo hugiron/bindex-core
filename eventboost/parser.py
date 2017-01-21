@@ -44,5 +44,4 @@ def profile_save(profile):
 
 
 def get_contains_count(profile):
-    return profile.contains_vk() + profile.contains_fb() + profile.contains_instagram() + profile.contains_twitter() + \
-           profile.contains_skype() + profile.contains_phone()
+    return profile.contains_vk() + profile.contains_fb() + profile.contains_instagram() + profile.contains_twitter()
