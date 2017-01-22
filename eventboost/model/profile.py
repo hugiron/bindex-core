@@ -1,15 +1,15 @@
 import json
 from datetime import datetime
-from mongoengine import DynamicDocument, StringField, DateTimeField, DynamicField
+from mongoengine import DynamicDocument, LongField, DateTimeField, DynamicField
 from eventboost.search.tools.validator import *
 
 
 class Profile(DynamicDocument):
     last_modified = DateTimeField(db_field='last_modified', default=datetime.now())
-    vk = StringField(db_field='vk', default=None)
-    fb = StringField(db_field='fb', default=None)
-    instagram = StringField(db_field='instagram', default=None)
-    twitter = StringField(db_field='twitter', default=None)
+    vk = LongField(db_field='vk', default=None)
+    fb = LongField(db_field='fb', default=None)
+    instagram = LongField(db_field='instagram', default=None)
+    twitter = LongField(db_field='twitter', default=None)
     other = DynamicField(db_field='other', default=dict())
     meta = {
         'collection': 'profiles',
@@ -66,8 +66,9 @@ class Profile(DynamicDocument):
         return self.vk
 
     def set_vk(self, vk):
-        self.modify()
-        self.vk = str(vk) if vk else None
+        if vk:
+            self.modify()
+            self.vk = int(vk) if str(vk).isdigit() else str(vk)
 
     def contains_vk(self):
         return bool(self.vk)
@@ -76,8 +77,9 @@ class Profile(DynamicDocument):
         return self.fb
 
     def set_fb(self, fb):
-        self.modify()
-        self.fb = str(fb.replace('+', '')) if fb else None
+        if fb:
+            self.modify()
+            self.fb = int(fb) if str(fb).isdigit() else str(fb)
 
     def contains_fb(self):
         return bool(self.fb)
@@ -86,8 +88,9 @@ class Profile(DynamicDocument):
         return self.instagram
 
     def set_instagram(self, instagram):
-        self.modify()
-        self.instagram = str(instagram) if instagram else None
+        if instagram:
+            self.modify()
+            self.instagram = int(instagram) if str(instagram).isdigit() else str(instagram)
 
     def contains_instagram(self):
         return bool(self.instagram)
@@ -96,8 +99,9 @@ class Profile(DynamicDocument):
         return self.twitter
 
     def set_twitter(self, twitter):
-        self.modify()
-        self.twitter = str(twitter) if twitter else None
+        if twitter:
+            self.modify()
+            self.twitter = int(twitter) if str(twitter).isdigit() else str(twitter)
 
     def contains_twitter(self):
         return bool(self.twitter)
@@ -127,7 +131,7 @@ class Profile(DynamicDocument):
         self.other['phone'] = list(set(self.other['phone']))
 
     def contains_phone(self):
-        return 'phone' in self.other
+        return bool(self.other.get('phone'))
 
     def get_email(self):
         return self.other.get('email')

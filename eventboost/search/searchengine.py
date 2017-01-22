@@ -60,7 +60,7 @@ class SearchInstagramByUserStatus:
     def update(profile):
         if profile.contains_instagram():
             instagram_username = get_account_by_id(id=profile.get_instagram()).username \
-                if profile.get_instagram().isdigit() else profile.get_instagram()
+                if str(profile.get_instagram()).isdigit() else profile.get_instagram()
             profile = SocialLinkParser.parse(
                 profile=profile,
                 content=InstaMedia.get_status(instagram_username),
@@ -80,7 +80,7 @@ class SearchTwitterByUserStatus:
     def update(profile):
         if profile.contains_twitter():
             twitter_username = get_screen_name_by_user_id(user_id=profile.get_twitter()) \
-                if profile.get_twitter().isdigit() else profile.get_twitter()
+                if str(profile.get_twitter()).isdigit() else profile.get_twitter()
             profile = SocialLinkParser.parse(
                 profile=profile,
                 content=TwitterUsers.get_profile_card(twitter_username),

@@ -19,7 +19,7 @@ def get(user_ids, fields, name_case='nom', access_token=None):
 
 def get_phones(user_id):
     info_strainer = SoupStrainer(attrs={'class': 'profile_info_cont'})
-    if user_id.isdigit():
+    if str(user_id).isdigit():
         user_id = 'id{0}'.format(user_id)
     headers = {
         'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
