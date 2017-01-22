@@ -1,14 +1,14 @@
 import json
-from mongoengine import Document, StringField
+from mongoengine import DynamicDocument, StringField, DictField, DynamicField
+from eventboost.search.tools.validator import *
 
 
-class Profile(Document):
+class Profile(DynamicDocument):
     vk = StringField(db_field='vk', default=None)
     fb = StringField(db_field='fb', default=None)
     instagram = StringField(db_field='instagram', default=None)
     twitter = StringField(db_field='twitter', default=None)
-    skype = StringField(db_field='skype', default=None)
-    phone = StringField(db_field='phone', default=None)
+    other = DynamicField(db_field='other', default=dict())
     meta = {
         'collection': 'profiles',
         'indexes': [
@@ -16,13 +16,14 @@ class Profile(Document):
             'fb',
             'instagram',
             'twitter',
-            'skype',
-            'phone'
+            'other.skype',
+            'other.phone',
+            'other.email'
         ]
     }
 
     @staticmethod
-    def create(vk=None, fb=None, instagram=None, twitter=None, skype=None, phone=None, **kwargs):
+    def create(vk=None, fb=None, instagram=None, twitter=None, skype=None, phone=None, email=None, **kwargs):
         profile = Profile()
         profile.set_vk(vk if vk else kwargs.get('vk'))
         profile.set_fb(fb if fb else kwargs.get('fb'))
@@ -30,6 +31,7 @@ class Profile(Document):
         profile.set_twitter(twitter if twitter else kwargs.get('twitter'))
         profile.set_skype(skype if skype else kwargs.get('skype'))
         profile.set_phone(phone if phone else kwargs.get('phone'))
+        profile.set_email(email if email else kwargs.get('email'))
         return profile
 
     def dumps(self):
@@ -38,17 +40,18 @@ class Profile(Document):
             fb=self.fb,
             instagram=self.instagram,
             twitter=self.twitter,
-            skype=self.skype,
-            phone=self.phone
+            other=self.other
         ))
 
     def __str__(self):
-        return 'User\nVK: {0}\nFacebook: {1}\nInstagram: {2}\nTwitter: {3}\nSkype: {4}\nPhone: {5}'.format(self.vk,
-                                                                                                           self.fb,
-                                                                                                           self.instagram,
-                                                                                                           self.twitter,
-                                                                                                           self.skype,
-                                                                                                           self.phone)
+        return 'User\nVK: {0}\nFacebook: {1}\nInstagram: {2}\nTwitter: {3}\n' \
+               'Skype: {4}\nPhone: {5}\nEmail: {6}'.format(self.vk,
+                                                           self.fb,
+                                                           self.instagram,
+                                                           self.twitter,
+                                                           self.other.get('skype'),
+                                                           self.other.get('phone'),
+                                                           self.other.get('email'))
 
     def is_empty(self):
         return not (self.vk or self.fb or self.instagram or self.twitter)
@@ -90,19 +93,35 @@ class Profile(Document):
         return bool(self.twitter)
 
     def get_skype(self):
-        return self.skype
+        return self.other.get('skype')
 
     def set_skype(self, skype):
-        self.skype = skype
+        if not skype or validate_skype(skype):
+            self.other['skype'] = skype
 
     def contains_skype(self):
-        return bool(self.skype)
+        return 'skype' in self.other
 
     def get_phone(self):
-        return self.phone
+        return self.other.get('phone')
 
     def set_phone(self, phone):
-        self.phone = phone
+        self.other['phone'] = phone
 
     def contains_phone(self):
-        return bool(self.phone)
+        return 'phone' in self.other
+
+    def get_email(self):
+        return self.other.get('email')
+
+    def set_email(self, email):
+        self.other['email'] = email
+
+    def contains_email(self):
+        return 'email' in self.other
+
+    def get_other(self):
+        return self.other
+
+    def contains_other(self):
+        return bool(self.other)

@@ -36,10 +36,8 @@ def profile_save(profile):
         upsert_data['instagram'] = profile.get_instagram()
     if profile.contains_twitter():
         upsert_data['twitter'] = profile.get_twitter()
-    if profile.contains_skype():
-        upsert_data['skype'] = profile.get_skype()
-    if profile.contains_phone():
-        upsert_data['phone'] = profile.get_phone()
+    if profile.contains_other():
+        upsert_data['other'] = profile.get_other()
     Profile.objects(upsert_query).modify(**upsert_data)
 
 

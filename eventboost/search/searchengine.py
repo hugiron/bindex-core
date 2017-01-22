@@ -4,7 +4,8 @@ import eventboost.api.instagram.media as InstaMedia
 import eventboost.api.twitter.users as TwitterUsers
 from eventboost.search.tools.sociallinkparser import SocialLinkParser
 from eventboost.api.instagram.method import get_account_by_username, get_account_by_id
-from eventboost.api.twitter.users import get_user_id_by_screen_name
+from eventboost.api.twitter.users import get_user_id_by_screen_name, get_screen_name_by_user_id
+from eventboost.api.vk.users import get_phones
 
 
 class SearchVkByUserInfo:
@@ -26,7 +27,7 @@ class SearchVkByUserInfo:
                 profile.set_skype(data['skype'])
             profile = SocialLinkParser.parse(
                 profile=profile,
-                content='{0} {1}'.format(data.get('site'), data.get('status')),
+                content='{0} | {1} | {2}'.format(data.get('site'), data.get('status'), '|'.join(get_phones(profile.get_vk()))),
                 vk=False
             )
         return profile
@@ -78,9 +79,11 @@ class SearchTwitterByUserStatus:
     @staticmethod
     def update(profile):
         if profile.contains_twitter():
+            twitter_username = get_screen_name_by_user_id(user_id=profile.get_twitter()) \
+                if profile.get_twitter().isdigit() else profile.get_twitter()
             profile = SocialLinkParser.parse(
                 profile=profile,
-                content=TwitterUsers.get_profile_card(profile.get_twitter()),
+                content=TwitterUsers.get_profile_card(twitter_username),
                 twitter=False
             )
         return profile

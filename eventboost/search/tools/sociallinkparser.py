@@ -7,7 +7,8 @@ from eventboost.api.twitter.users import get_user_id_by_screen_name
 
 class SocialLinkParser:
     @staticmethod
-    def parse(profile, content, vk=True, fb=True, instagram=True, twitter=True, phone=True):
+    def parse(profile, content, vk=True, fb=True, instagram=True, twitter=True, phone=True, email=True):
+        content = content.lower()
         if vk and not profile.contains_vk():
             profile.set_vk(SocialLinkParser.parse_vk(content))
         if fb and not profile.contains_fb():
@@ -18,11 +19,18 @@ class SocialLinkParser:
             profile.set_twitter(get_user_id_by_screen_name(SocialLinkParser.parse_twitter(content)))
         if phone and not profile.contains_phone():
             profile.set_phone(SocialLinkParser.parse_phone(content))
+        if email and not profile.contains_email():
+            profile.set_email(SocialLinkParser.parse_email(content))
         return profile
 
     @staticmethod
     def parse_phone(content):
-        data = re.findall('(\\+[\\d]{10,18})', re.sub('[-—()\\s]', '', content))
+        data = re.findall('(\\+\d{10,18})', re.sub('[-—()\\s]', '', content))
+        return list(set(data)) if data else None
+
+    @staticmethod
+    def parse_email(content):
+        data = re.findall('([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)', content)
         return data[0] if data else None
 
     @staticmethod
