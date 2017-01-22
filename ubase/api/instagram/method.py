@@ -2,11 +2,11 @@ import json
 import string
 import random
 import requests as rqst
-from eventboost.api.instagram.model.account import Account
-from eventboost.api.instagram.model.media import Media
-from eventboost.api.instagram.model.comment import Comment
-from eventboost.api.instagram.endpoint import *
-from eventboost.model.exceptions import InstagramException, InstagramNotFoundException
+from ubase.api.instagram.model.account import Account
+from ubase.api.instagram.model.media import Media
+from ubase.api.instagram.model.comment import Comment
+from ubase.api.instagram.endpoint import *
+from ubase.model.exceptions import InstagramException, InstagramNotFoundException
 
 
 def get_account_by_username(username):

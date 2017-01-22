@@ -2,7 +2,7 @@ import json
 import time
 import random
 import requests as rqst
-from eventboost.model.exceptions import MethodApiException, RequestLimitException
+from ubase.model.exceptions import MethodApiException, RequestLimitException
 
 
 class VkApi:

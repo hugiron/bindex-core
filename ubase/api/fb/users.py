@@ -1,7 +1,7 @@
 import re
 import requests as rqst
 from bs4 import BeautifulSoup
-from eventboost.api.fb import FbApi
+from ubase.api.fb import FbApi
 
 
 def get_user_id(username):

@@ -1,5 +1,5 @@
 import json
-from eventboost.api.instagram.model.account import Account
+from ubase.api.instagram.model.account import Account
 
 
 class Comment:

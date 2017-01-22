@@ -1,6 +1,6 @@
 import json
-from eventboost.api.instagram.model.account import Account
-from eventboost.api.instagram.endpoint import *
+from ubase.api.instagram.model.account import Account
+from ubase.api.instagram.endpoint import *
 
 
 INSTAGRAM_URL = "https://www.instagram.com/"

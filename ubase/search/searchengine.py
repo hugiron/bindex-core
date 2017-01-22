@@ -1,11 +1,11 @@
-import eventboost.api.vk.users as VkUsers
-import eventboost.api.vk.wall as VkWall
-import eventboost.api.instagram.media as InstaMedia
-import eventboost.api.twitter.users as TwitterUsers
-from eventboost.search.tools.sociallinkparser import SocialLinkParser
-from eventboost.api.instagram.method import get_account_by_id
-from eventboost.api.twitter.users import get_screen_name_by_user_id
-from eventboost.api.vk.users import get_phones
+import ubase.api.vk.users as VkUsers
+import ubase.api.vk.wall as VkWall
+import ubase.api.instagram.media as InstaMedia
+import ubase.api.twitter.users as TwitterUsers
+from ubase.search.tools.sociallinkparser import SocialLinkParser
+from ubase.api.instagram.method import get_account_by_id
+from ubase.api.twitter.users import get_screen_name_by_user_id
+from ubase.api.vk.users import get_phones
 
 
 class SearchVkByUserInfo:

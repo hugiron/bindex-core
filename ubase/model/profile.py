@@ -1,11 +1,11 @@
 import json
 from datetime import datetime
 from mongoengine import DynamicDocument, LongField, DateTimeField, DynamicField
-from eventboost.search.tools.validator import *
-import eventboost.api.vk.users as VkUsers
-import eventboost.api.instagram.method as InstaMethod
-import eventboost.api.twitter.users as TwitterUsers
-import eventboost.api.fb.users as FbUsers
+from ubase.search.tools.validator import *
+import ubase.api.vk.users as VkUsers
+import ubase.api.instagram.method as InstaMethod
+import ubase.api.twitter.users as TwitterUsers
+import ubase.api.fb.users as FbUsers
 
 
 class Profile(DynamicDocument):

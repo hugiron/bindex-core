@@ -1,6 +1,6 @@
 from mongoengine import Q
-from eventboost.search.searchengine import *
-from eventboost.model.profile import Profile
+from ubase.search.searchengine import *
+from ubase.model.profile import Profile
 
 
 parser = [
