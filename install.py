@@ -21,7 +21,7 @@ def remove_cache(path):
 
 
 def install_package():
-    package = 'ubase'
+    package = 'pendex'
     for path in sys.path:
         if os.path.isdir(path) and os.path.abspath(path) != os.getcwd():
             current = '{0}/{1}'.format(path, package)

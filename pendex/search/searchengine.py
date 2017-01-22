@@ -1,11 +1,11 @@
-import ubase.api.vk.users as VkUsers
-import ubase.api.vk.wall as VkWall
-import ubase.api.instagram.media as InstaMedia
-import ubase.api.twitter.users as TwitterUsers
-from ubase.search.tools.sociallinkparser import SocialLinkParser
-from ubase.api.instagram.method import get_account_by_id
-from ubase.api.twitter.users import get_screen_name_by_user_id
-from ubase.api.vk.users import get_phones
+import pendex.api.vk.users as VkUsers
+import pendex.api.vk.wall as VkWall
+import pendex.api.instagram.media as InstaMedia
+import pendex.api.twitter.users as TwitterUsers
+from pendex.search.tools.sociallinkparser import SocialLinkParser
+from pendex.api.instagram.method import get_account_by_id
+from pendex.api.twitter.users import get_screen_name_by_user_id
+from pendex.api.vk.users import get_phones
 
 
 class SearchVkByUserInfo:

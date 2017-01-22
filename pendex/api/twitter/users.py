@@ -1,7 +1,7 @@
 import re
 import requests as rqst
 from bs4 import BeautifulSoup
-from ubase.api.twitter import TwitterApi
+from pendex.api.twitter import TwitterApi
 
 
 def get_profile_card(username):

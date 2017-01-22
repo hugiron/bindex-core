@@ -1,6 +1,6 @@
 import json
-from ubase.api.instagram.model.account import Account
-from ubase.api.instagram.endpoint import *
+from pendex.api.instagram.model.account import Account
+from pendex.api.instagram.endpoint import *
 
 
 INSTAGRAM_URL = "https://www.instagram.com/"

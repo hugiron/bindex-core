@@ -1,5 +1,5 @@
 import json
-from ubase.api.instagram.model.account import Account
+from pendex.api.instagram.model.account import Account
 
 
 class Comment:

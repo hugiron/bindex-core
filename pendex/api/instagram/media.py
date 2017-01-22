@@ -1,6 +1,6 @@
 import re
 from bs4 import BeautifulSoup, SoupStrainer
-from ubase.api.instagram.method import *
+from pendex.api.instagram.method import *
 
 
 def get_author(uri):

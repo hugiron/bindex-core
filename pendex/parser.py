@@ -1,6 +1,6 @@
 from mongoengine import Q
-from ubase.search.searchengine import *
-from ubase.model.profile import Profile
+from pendex.search.searchengine import *
+from pendex.model.profile import Profile
 
 
 parser = [
