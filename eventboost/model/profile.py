@@ -1,9 +1,11 @@
 import json
-from mongoengine import DynamicDocument, StringField, DictField, DynamicField
+from datetime import datetime
+from mongoengine import DynamicDocument, StringField, DateTimeField, DynamicField
 from eventboost.search.tools.validator import *
 
 
 class Profile(DynamicDocument):
+    last_modified = DateTimeField(db_field='last_modified', default=datetime.now())
     vk = StringField(db_field='vk', default=None)
     fb = StringField(db_field='fb', default=None)
     instagram = StringField(db_field='instagram', default=None)
@@ -12,6 +14,7 @@ class Profile(DynamicDocument):
     meta = {
         'collection': 'profiles',
         'indexes': [
+            'last_modified',
             'vk',
             'fb',
             'instagram',
@@ -56,10 +59,14 @@ class Profile(DynamicDocument):
     def is_empty(self):
         return not (self.vk or self.fb or self.instagram or self.twitter)
 
+    def modify(self):
+        self.last_modified = datetime.now()
+
     def get_vk(self):
         return self.vk
 
     def set_vk(self, vk):
+        self.modify()
         self.vk = str(vk) if vk else None
 
     def contains_vk(self):
@@ -69,6 +76,7 @@ class Profile(DynamicDocument):
         return self.fb
 
     def set_fb(self, fb):
+        self.modify()
         self.fb = str(fb.replace('+', '')) if fb else None
 
     def contains_fb(self):
@@ -78,6 +86,7 @@ class Profile(DynamicDocument):
         return self.instagram
 
     def set_instagram(self, instagram):
+        self.modify()
         self.instagram = str(instagram) if instagram else None
 
     def contains_instagram(self):
@@ -87,6 +96,7 @@ class Profile(DynamicDocument):
         return self.twitter
 
     def set_twitter(self, twitter):
+        self.modify()
         self.twitter = str(twitter) if twitter else None
 
     def contains_twitter(self):
@@ -97,6 +107,7 @@ class Profile(DynamicDocument):
 
     def set_skype(self, skype):
         if not skype or validate_skype(skype):
+            self.modify()
             self.other['skype'] = skype
 
     def contains_skype(self):
@@ -106,7 +117,14 @@ class Profile(DynamicDocument):
         return self.other.get('phone')
 
     def set_phone(self, phone):
-        self.other['phone'] = phone
+        self.modify()
+        if 'phone' not in self.other:
+            self.other['phone'] = list()
+        if type(phone) == list:
+            self.other['phone'].extend(phone)
+        elif type(phone) == str:
+            self.other['phone'].append(phone)
+        self.other['phone'] = list(set(self.other['phone']))
 
     def contains_phone(self):
         return 'phone' in self.other
@@ -115,7 +133,9 @@ class Profile(DynamicDocument):
         return self.other.get('email')
 
     def set_email(self, email):
-        self.other['email'] = email
+        if email:
+            self.modify()
+            self.other['email'] = email
 
     def contains_email(self):
         return 'email' in self.other

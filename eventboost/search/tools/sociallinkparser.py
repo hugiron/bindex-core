@@ -17,7 +17,7 @@ class SocialLinkParser:
             profile.set_instagram(get_account_by_username(SocialLinkParser.parse_instagram(content)).id)
         if twitter and not profile.contains_twitter():
             profile.set_twitter(get_user_id_by_screen_name(SocialLinkParser.parse_twitter(content)))
-        if phone and not profile.contains_phone():
+        if phone:
             profile.set_phone(SocialLinkParser.parse_phone(content))
         if email and not profile.contains_email():
             profile.set_email(SocialLinkParser.parse_email(content))
@@ -26,7 +26,7 @@ class SocialLinkParser:
     @staticmethod
     def parse_phone(content):
         data = re.findall('(\\+\d{10,18})', re.sub('[-—()\\s]', '', content))
-        return list(set(data)) if data else None
+        return data if data else None
 
     @staticmethod
     def parse_email(content):
