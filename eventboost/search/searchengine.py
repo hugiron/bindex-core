@@ -3,8 +3,8 @@ import eventboost.api.vk.wall as VkWall
 import eventboost.api.instagram.media as InstaMedia
 import eventboost.api.twitter.users as TwitterUsers
 from eventboost.search.tools.sociallinkparser import SocialLinkParser
-from eventboost.api.instagram.method import get_account_by_username, get_account_by_id
-from eventboost.api.twitter.users import get_user_id_by_screen_name, get_screen_name_by_user_id
+from eventboost.api.instagram.method import get_account_by_id
+from eventboost.api.twitter.users import get_screen_name_by_user_id
 from eventboost.api.vk.users import get_phones
 
 
@@ -16,13 +16,12 @@ class SearchVkByUserInfo:
                 user_ids=profile.get_vk(),
                 fields=['connections', 'site', 'status']
             )[0]
-            profile.set_vk(data['id'])
             if 'facebook' in data and not profile.contains_fb():
                 profile.set_fb(data['facebook'])
             if 'instagram' in data and not profile.contains_instagram():
-                profile.set_instagram(get_account_by_username(data['instagram']).id)
+                profile.set_instagram(data['instagram'])
             if 'twitter' in data and not profile.contains_twitter():
-                profile.set_twitter(get_user_id_by_screen_name(data['twitter']))
+                profile.set_twitter(data['twitter'])
             if 'skype' in data and not profile.contains_skype():
                 profile.set_skype(data['skype'])
             profile = SocialLinkParser.parse(
@@ -42,8 +41,6 @@ class SearchVkByUserInfo:
 class SearchVkByUserWall:
     @staticmethod
     def update(profile):
-        if not str(profile.get_vk()).isdigit():
-            profile.set_vk(VkUsers.get(user_ids=profile.get_vk(), fields=[])[0]['id'])
         for url in InstaMedia.get_notes(VkWall.get_source_code(owner_id=profile.get_vk())):
             profile.set_instagram(InstaMedia.get_author('https://{0}'.format(url)))
             if profile.contains_instagram():
@@ -59,8 +56,7 @@ class SearchInstagramByUserStatus:
     @staticmethod
     def update(profile):
         if profile.contains_instagram():
-            instagram_username = get_account_by_id(id=profile.get_instagram()).username \
-                if str(profile.get_instagram()).isdigit() else profile.get_instagram()
+            instagram_username = get_account_by_id(id=profile.get_instagram()).username
             profile = SocialLinkParser.parse(
                 profile=profile,
                 content=InstaMedia.get_status(instagram_username),
@@ -79,8 +75,7 @@ class SearchTwitterByUserStatus:
     @staticmethod
     def update(profile):
         if profile.contains_twitter():
-            twitter_username = get_screen_name_by_user_id(user_id=profile.get_twitter()) \
-                if str(profile.get_twitter()).isdigit() else profile.get_twitter()
+            twitter_username = get_screen_name_by_user_id(user_id=profile.get_twitter())
             profile = SocialLinkParser.parse(
                 profile=profile,
                 content=TwitterUsers.get_profile_card(twitter_username),

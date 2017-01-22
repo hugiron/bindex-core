@@ -1,8 +1,4 @@
 import re
-import eventboost.api.fb.users as FbUsers
-import eventboost.api.vk.users as VkUsers
-from eventboost.api.instagram.method import get_account_by_username
-from eventboost.api.twitter.users import get_user_id_by_screen_name
 
 
 class SocialLinkParser:
@@ -14,9 +10,9 @@ class SocialLinkParser:
         if fb and not profile.contains_fb():
             profile.set_fb(SocialLinkParser.parse_fb(content))
         if instagram and not profile.contains_instagram():
-            profile.set_instagram(get_account_by_username(SocialLinkParser.parse_instagram(content)).id)
+            profile.set_instagram(SocialLinkParser.parse_instagram(content))
         if twitter and not profile.contains_twitter():
-            profile.set_twitter(get_user_id_by_screen_name(SocialLinkParser.parse_twitter(content)))
+            profile.set_twitter(SocialLinkParser.parse_twitter(content))
         if phone:
             profile.set_phone(SocialLinkParser.parse_phone(content))
         if email and not profile.contains_email():
@@ -40,10 +36,7 @@ class SocialLinkParser:
             return data[0]
         data = re.findall('vk\\.com/([a-zA-Z][a-zA-Z\\d_]+)', content)
         if data:
-            return VkUsers.get(
-                user_ids=data[0],
-                fields=[]
-            )[0]['id']
+            return data[0]
         return None
 
     @staticmethod
@@ -56,7 +49,7 @@ class SocialLinkParser:
             return data[0][1]
         data = re.findall('(facebook|fb)\\.com/([a-zA-Z\\d][a-zA-Z\\d\\.]+)', content)
         if data:
-            return data[0][1] if str.isdigit(data[0][1]) else FbUsers.get_user_id(data[0][1])
+            return data[0][1]
         return None
 
     @staticmethod
