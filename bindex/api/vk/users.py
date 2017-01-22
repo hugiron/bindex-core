@@ -1,6 +1,6 @@
 import requests as rqst
 from bs4 import BeautifulSoup, SoupStrainer
-from pendex.api.vk import VkApi
+from bindex.api.vk import VkApi
 
 
 def get(user_ids, fields, name_case='nom', access_token=None):

@@ -2,11 +2,11 @@ import json
 import string
 import random
 import requests as rqst
-from pendex.api.instagram.model.account import Account
-from pendex.api.instagram.model.media import Media
-from pendex.api.instagram.model.comment import Comment
-from pendex.api.instagram.endpoint import *
-from pendex.model.exceptions import InstagramException, InstagramNotFoundException
+from bindex.api.instagram.model.account import Account
+from bindex.api.instagram.model.media import Media
+from bindex.api.instagram.model.comment import Comment
+from bindex.api.instagram.endpoint import *
+from bindex.model.exceptions import InstagramException, InstagramNotFoundException
 
 
 def get_account_by_username(username):

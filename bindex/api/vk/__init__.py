@@ -2,7 +2,7 @@ import json
 import time
 import random
 import requests as rqst
-from pendex.model.exceptions import MethodApiException, RequestLimitException
+from bindex.model.exceptions import MethodApiException, RequestLimitException
 
 
 class VkApi:

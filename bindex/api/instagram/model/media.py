@@ -1,6 +1,6 @@
 import json
-from pendex.api.instagram.model.account import Account
-from pendex.api.instagram.endpoint import *
+from bindex.api.instagram.model.account import Account
+from bindex.api.instagram.endpoint import *
 
 
 INSTAGRAM_URL = "https://www.instagram.com/"

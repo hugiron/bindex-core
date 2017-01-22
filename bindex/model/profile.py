@@ -1,11 +1,11 @@
 import json
 from datetime import datetime
 from mongoengine import DynamicDocument, LongField, DateTimeField, DynamicField
-from pendex.search.tools.validator import *
-import pendex.api.vk.users as VkUsers
-import pendex.api.instagram.method as InstaMethod
-import pendex.api.twitter.users as TwitterUsers
-import pendex.api.fb.users as FbUsers
+from bindex.search.tools.validator import *
+import bindex.api.vk.users as VkUsers
+import bindex.api.instagram.method as InstaMethod
+import bindex.api.twitter.users as TwitterUsers
+import bindex.api.fb.users as FbUsers
 
 
 class Profile(DynamicDocument):
