@@ -86,7 +86,7 @@ class Profile(DynamicDocument):
         if fb:
             self.modify()
             fb = str(fb)
-            self.fb = int(fb if fb.isdigit() else FbUsers.get_user_id(fb))
+            self.fb = int(fb.lstrip('+') if fb.isdigit() else FbUsers.get_user_id(fb).lstrip('+'))
 
     def contains_fb(self):
         return bool(self.fb)
